@@ -20,7 +20,6 @@ const provider = new GoogleAuthProvider();
 const NO_PFP = "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png";
 let currentUser = null, currentSubject = "All", currentGrade = "All", activePostId = "", userData = {};
 
-// --- AUTH & DATA SYNC ---
 onAuthStateChanged(auth, async (user) => {
     const loginBtn = document.getElementById('btn-login');
     if (loginBtn) loginBtn.onclick = () => signInWithPopup(auth, provider);
@@ -28,22 +27,20 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         currentUser = user;
         const userRef = doc(db, "users", user.uid);
-        
         onSnapshot(userRef, (snap) => {
             userData = snap.data() || { savedPosts: [] };
             updateUI(user);
         });
-
         if (!(await getDoc(userRef)).exists()) {
             await setDoc(userRef, { name: user.displayName, photoURL: user.photoURL || NO_PFP, savedPosts: [] });
         }
-        
         changeTab('home');
         applyFilters();
         initLiveStatus();
     } else {
         document.getElementById('screen-login').classList.remove('hidden');
         document.getElementById('nav-bar').classList.add('hidden');
+        document.getElementById('user-info').classList.add('hidden');
     }
 });
 
@@ -56,7 +53,6 @@ function updateUI(user) {
     document.getElementById('profile-name').innerText = user.displayName;
 }
 
-// --- FEED & POSTS ---
 function applyFilters() {
     let constraints = [orderBy("createdAt", "desc")];
     if (currentSubject !== "All") constraints.push(where("tag", "==", currentSubject));
@@ -95,7 +91,6 @@ function renderPost(id, d) {
         </div>`;
 }
 
-// --- ACTIONS ---
 window.toggleLike = async (id, likedBy) => {
     const ref = doc(db, "posts", id);
     likedBy.includes(currentUser.uid) ? await updateDoc(ref, { likedBy: arrayRemove(currentUser.uid), likes: increment(-1) }) : await updateDoc(ref, { likedBy: arrayUnion(currentUser.uid), likes: increment(1) });
@@ -121,13 +116,11 @@ document.getElementById('submitPost').onclick = async () => {
     document.getElementById('postText').value = "";
 };
 
-// --- PROFILE TABS ---
 window.switchProfileView = (view) => {
     document.querySelectorAll('.p-tab').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + view).classList.add('active');
     const feed = document.getElementById('profile-feed');
     feed.innerHTML = '';
-    
     let q;
     if (view === 'my') {
         q = query(collection(db, "posts"), where("uid", "==", currentUser.uid));
@@ -138,14 +131,12 @@ window.switchProfileView = (view) => {
         }
         q = query(collection(db, "posts"), where("__name__", "in", userData.savedPosts));
     }
-    
     onSnapshot(q, (snap) => {
         feed.innerHTML = '';
         snap.forEach(docSnap => feed.innerHTML += renderPost(docSnap.id, docSnap.data()));
     });
 };
 
-// --- UTILS ---
 window.changeTab = (t) => {
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
     document.getElementById('screen-' + t).classList.remove('hidden');
