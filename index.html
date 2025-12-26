@@ -2,34 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>StudySwap</title>
+    
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#6e8efb">
+
     <link rel="stylesheet" href="style.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 </head>
 <body>
 
     <header class="app-header">
-    <div class="header-left">
-        <div class="logo">StudySwap</div>
-        <div class="live-status">
-            <span class="pulse-dot"></span> <span id="active-count">...</span> Online
+        <div class="header-left">
+            <div class="logo">StudySwap</div>
+            <div class="live-status">
+                <span class="pulse-dot"></span> <span id="active-count">...</span> Online
+            </div>
         </div>
-    </div>
-    
-    <div id="user-info" class="hidden" style="display: flex; align-items: center; gap: 15px;">
-        <div class="noti-wrapper">
-            <ion-icon name="notifications-outline"></ion-icon>
-            <div id="noti-badge" class="hidden"></div>
+        <div id="user-info" class="hidden">
+            <div class="noti-wrapper">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <div id="noti-badge" class="hidden"></div>
+            </div>
+            <img id="my-avatar" src="" class="circle-pfp">
         </div>
-        <img id="my-avatar" src="" class="circle-pfp">
-    </div>
-</header>
+    </header>
 
     <div id="screen-login" class="screen">
         <div class="login-container" style="text-align:center; padding-top:100px;">
-            <ion-icon name="planet-outline" style="font-size:80px; color:var(--main);"></ion-icon>
+            <img src="logo.png" style="width:120px; border-radius:25px; margin-bottom:20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
             <h1>StudySwap</h1>
+            <p style="color:#666; margin-bottom:30px;">Connect. Study. Succeed.</p>
             <button id="btn-login" class="login-btn">Sign in with Google</button>
         </div>
     </div>
