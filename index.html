@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySwap</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+
+    <header class="app-header">
+    <div class="header-left">
+        <div class="logo">StudySwap</div>
+        <div class="live-status">
+            <span class="pulse-dot"></span> <span id="active-count">...</span> Online
+        </div>
+    </div>
+    
+    <div id="user-info" class="hidden" style="display: flex; align-items: center; gap: 15px;">
+        <div class="noti-wrapper">
+            <ion-icon name="notifications-outline"></ion-icon>
+            <div id="noti-badge" class="hidden"></div>
+        </div>
+        <img id="my-avatar" src="" class="circle-pfp">
+    </div>
+</header>
+
+    <div id="screen-login" class="screen">
+        <div class="login-container" style="text-align:center; padding-top:100px;">
+            <ion-icon name="planet-outline" style="font-size:80px; color:var(--main);"></ion-icon>
+            <h1>StudySwap</h1>
+            <button id="btn-login" class="login-btn">Sign in with Google</button>
+        </div>
+    </div>
+
+    <div id="screen-home" class="screen hidden">
+        <div class="search-area">
+            <div class="search-box">
+                <ion-icon name="search-outline"></ion-icon>
+                <input type="text" id="searchInput" placeholder="Search for help...">
+            </div>
+        </div>
+
+        <div class="filter-bar grade-bar">
+            <div class="chip active" onclick="filterByGrade('All', event)">All</div>
+            <div class="chip" onclick="filterByGrade('G6', event)">G6</div>
+            <div class="chip" onclick="filterByGrade('G7', event)">G7</div>
+            <div class="chip" onclick="filterByGrade('G8', event)">G8</div>
+            <div class="chip" onclick="filterByGrade('G9', event)">G9</div>
+            <div class="chip" onclick="filterByGrade('G10', event)">G10</div>
+            <div class="chip" onclick="filterByGrade('G11', event)">G11</div>
+            <div class="chip" onclick="filterByGrade('G12', event)">G12</div>
+        </div>
+
+        <div class="filter-bar subject-bar">
+            <div class="chip active" onclick="filterBySubject('All', event)">All</div>
+            <div class="chip" onclick="filterBySubject('Math', event)">Math</div>
+            <div class="chip" onclick="filterBySubject('Science', event)">Science</div>
+            <div class="chip" onclick="filterBySubject('English', event)">English</div>
+            <div class="chip" onclick="filterBySubject('Arabic', event)">Arabic</div>
+            <div class="chip" onclick="filterBySubject('Islamic', event)">Islamic</div>
+            <div class="chip" onclick="filterBySubject('History', event)">History</div>
+            <div class="chip" onclick="filterBySubject('Social Studies', event)">Social Studies</div>
+            <div class="chip" onclick="filterBySubject('ICT', event)">ICT</div>
+        </div>
+        
+        <div id="feed-list"></div>
+    </div>
+
+    <div id="screen-profile" class="screen hidden">
+        <div class="profile-card">
+            <img id="profile-img" src="" class="circle-pfp large-pfp">
+            <h2 id="profile-name">Student</h2>
+            <div class="profile-tabs">
+                <div class="p-tab active" id="tab-my" onclick="switchProfileView('my')">My Posts</div>
+                <div class="p-tab" id="tab-saved" onclick="switchProfileView('saved')">Saved</div>
+            </div>
+            <div id="profile-feed"></div>
+            <button id="btn-logout" class="logout-link">Sign Out</button>
+        </div>
+    </div>
+
+    <div id="postModal" class="modal hidden">
+        <div class="modal-content glass-modal">
+            <div class="modal-header"><h3>New Question</h3><ion-icon name="close-circle" onclick="closeModal()"></ion-icon></div>
+            <textarea id="postText" placeholder="What do you need help with?"></textarea>
+            <div class="tutor-toggle">
+                <input type="checkbox" id="tutorRequest">
+                <label for="tutorRequest">Request a Tutor (Urgent)</label>
+            </div>
+            <div class="modal-grid">
+                <div class="input-group">
+                    <label>Subject</label>
+                    <select id="postTag">
+                        <option value="Math">Math</option><option value="Science">Science</option>
+                        <option value="English">English</option><option value="Arabic">Arabic</option>
+                        <option value="Islamic">Islamic</option><option value="History">History</option>
+                        <option value="Social Studies">Social Studies</option><option value="ICT">ICT</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Grade</label>
+                    <select id="postGrade">
+                        <option value="G6">G6</option><option value="G7">G7</option><option value="G8">G8</option>
+                        <option value="G9">G9</option><option value="G10">G10</option><option value="G11">G11</option><option value="G12">G12</option>
+                    </select>
+                </div>
+            </div>
+            <button id="submitPost" class="primary-btn">Post Question</button>
+        </div>
+    </div>
+
+    <div id="replyModal" class="modal hidden">
+        <div class="modal-content glass-modal">
+            <div class="modal-header"><h3>Your Answer</h3><ion-icon name="close-circle" onclick="closeReplyModal()"></ion-icon></div>
+            <textarea id="replyText" placeholder="Write your explanation..."></textarea>
+            <button id="submitReply" class="primary-btn">Submit Answer</button>
+        </div>
+    </div>
+
+    <nav id="nav-bar" class="bottom-nav hidden">
+        <ion-icon name="home" class="nav-item active" id="nav-home" onclick="changeTab('home')"></ion-icon>
+        <div class="add-btn" onclick="openModal()"><ion-icon name="add"></ion-icon></div>
+        <ion-icon name="person" class="nav-item" id="nav-profile" onclick="changeTab('profile')"></ion-icon>
+    </nav>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
